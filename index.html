@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VK Recovery Tool</title>
+</head>
+<body>
+    <h2>🔑 Восстановление данных VK</h2>
+    <button onclick="checkLocalStorage()">📂 Проверить сохраненные данные</button>
+    <button onclick="checkCookies()">🍪 Найти сессию VK</button>
+    <button onclick="checkForms()">🔍 Найти автозаполненные пароли</button>
+
+    <h3>📋 Результаты:</h3>
+    <pre id="result">Нажми на кнопку выше...</pre>
+
+    <script>
+        function logResult(data) {
+            document.getElementById("result").innerText = data;
+        }
+
+        // 1. Проверка LocalStorage
+        function checkLocalStorage() {
+            let vkData = localStorage.getItem("vk_auth");  // VK могли сохранить токен тут
+            if (vkData) {
+                logResult("🔑 Найден VK Token: " + vkData);
+            } else {
+                logResult("❌ Данные VK не найдены в LocalStorage.");
+            }
+        }
+
+        // 2. Проверка Cookies
+        function checkCookies() {
+            let cookies = document.cookie.split("; ");
+            let vkCookies = cookies.filter(c => c.includes("remixsid") || c.includes("vk_token"));
+            if (vkCookies.length > 0) {
+                logResult("🍪 VK Cookies найдены: \n" + vkCookies.join("\n"));
+            } else {
+                logResult("❌ VK Cookies не найдены.");
+            }
+        }
+
+        // 3. Проверка автозаполненных паролей (работает, если браузер подставляет пароль)
+        function checkForms() {
+            let inputs = document.querySelectorAll("input[type='password']");
+            if (inputs.length > 0) {
+                let foundPasswords = [];
+                inputs.forEach(input => {
+                    if (input.value) {
+                        foundPasswords.push(input.value);
+                    }
+                });
+                if (foundPasswords.length > 0) {
+                    logResult("🔐 Найденные пароли: \n" + foundPasswords.join("\n"));
+                } else {
+                    logResult("❌ Браузер не подставил пароли.");
+                }
+            } else {
+                logResult("❌ Поля для пароля не найдены.");
+            }
+        }
+    </script>
+</body>
+</html>
