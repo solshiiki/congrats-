@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Poker Lab — Монте‑Карло шансы Холдема</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>Poker Lab</h1>
+    <p class="subtitle">Интерактивный расчёт шансов Техасского Холдема (Монте‑Карло)</p>
+  </header>
+
+  <main class="app">
+    <section class="panel">
+      <div class="section-title">Ваши карты</div>
+      <div class="hole-cards">
+        <button class="card-slot" data-slot="h1" aria-label="Выбрать карту 1"></button>
+        <button class="card-slot" data-slot="h2" aria-label="Выбрать карту 2"></button>
+      </div>
+
+      <div class="section-title">Борд</div>
+      <div class="board-cards">
+        <button class="card-slot" data-slot="b1" aria-label="Флоп 1"></button>
+        <button class="card-slot" data-slot="b2" aria-label="Флоп 2"></button>
+        <button class="card-slot" data-slot="b3" aria-label="Флоп 3"></button>
+        <button class="card-slot" data-slot="b4" aria-label="Тёрн"></button>
+        <button class="card-slot" data-slot="b5" aria-label="Ривер"></button>
+      </div>
+
+      <div class="controls">
+        <div class="control">
+          <label for="opponents">Соперников: <span id="opponentsValue">1</span></label>
+          <input id="opponents" type="range" min="1" max="8" value="1" />
+        </div>
+        <div class="control">
+          <label for="iterations">Итераций: <span id="iterationsValue">5000</span></label>
+          <input id="iterations" type="range" min="500" max="10000" step="500" value="5000" />
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button id="btn-random" class="btn primary">Случайная раздача</button>
+        <button id="btn-clear" class="btn">Очистить</button>
+        <button id="btn-calc" class="btn accent">Рассчитать</button>
+      </div>
+
+      <div class="tips">
+        Подсказки: нажмите на слот карты, чтобы выбрать. Правый клик — очистить слот.
+      </div>
+    </section>
+
+    <section class="panel results-panel">
+      <div class="section-title">Результаты</div>
+      <div class="results">
+        <div class="stat">
+          <div class="label">Победа</div>
+          <div class="value win" id="stat-win">—</div>
+        </div>
+        <div class="stat">
+          <div class="label">Ничья</div>
+          <div class="value tie" id="stat-tie">—</div>
+        </div>
+        <div class="stat">
+          <div class="label">Поражение</div>
+          <div class="value lose" id="stat-lose">—</div>
+        </div>
+      </div>
+      <div class="progress">
+        <div class="bar" id="progressBar" style="width:0%"></div>
+      </div>
+      <div class="run-info" id="runInfo"></div>
+      <div class="hand-name" id="handName"></div>
+    </section>
+  </main>
+
+  <div class="picker-backdrop hidden" id="pickerBackdrop" aria-hidden="true">
+    <div class="picker" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+      <div class="picker-header">
+        <div id="pickerTitle">Выбор карты</div>
+        <button id="pickerClose" class="icon-btn" aria-label="Закрыть">✕</button>
+      </div>
+      <div class="picker-grid" id="pickerGrid"></div>
+      <div class="picker-footer">
+        <button id="pickerClear" class="btn">Очистить слот</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <span>Made with ♥ — без библиотек, только HTML/CSS/JS</span>
+  </footer>
+
+  <script src="./app.js"></script>
+</body>
+</html>
